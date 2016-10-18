@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<title>HTML5调用百度地图API进行地理定位实例</title>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=134db1b9cf1f1f2b4427210932b34dcb"></script>
+    </head>
+    <body style="margin:50px 10px;">
+        <div id="status" style="text-align: center"></div>
+        <div style="width:600px;height:480px;border:1px solid gray;margin:30px auto" id="container"></div>
+    </body>
+</html>
+
+<script type="text/javascript">
+    //默认地理位置设置为上海市浦东新区
+    var x=121.53072510000001,y=31.2193446;
+    window.onload = function() {
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(getPositionSuccess, getPositionError);
+        }else{
+            alert("您的浏览器不支持自动定位!");
+        }
+
+        function getPositionSuccess(position){
+            console.info(position);
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+            var address;
+            alert(lat + ' - ' + lng);
+
+            var map = new BMap.Map("container");
+            var point = new BMap.Point(lng,lat);
+            map.centerAndZoom(point,12);
+
+            var geolocation = new BMap.Geolocation();
+            geolocation.getCurrentPosition(function(r){
+                if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                    console.info(r.point);
+                    var mk = new BMap.Marker(point);
+                    map.addOverlay(mk);
+                    // map.panTo(r.point);
+                }
+                else {
+                    alert('failed'+this.getStatus());
+                }
+            },{enableHighAccuracy: true})
+        }
+
+        /**用户定位失败**/
+        function getPositionError(error){
+            switch(error.code){
+                case error.TIMEOUT:
+                    alert("连接超时，请重试");
+                break;
+                case error.PERMISSION_DENIED:
+                    alert("您拒绝了使用位置共享服务，查询已取消");
+                break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("亲爱的火星网友，非常抱歉，我们暂时无法为您所在的星球提供位置服务");
+                break;
+            }
+        }
+        /*if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+            document.getElementById("status").innerHTML = "HTML5 Geolocation is supported in your browser.";
+                // 百度地图API功能
+                var map = new BMap.Map("container");
+                var point = new BMap.Point(x,y);
+                map.centerAndZoom(point,12);
+
+                var geolocation = new BMap.Geolocation();
+                geolocation.getCurrentPosition(function(r){
+                    if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                        var mk = new BMap.Marker(r.point);
+                        map.addOverlay(mk);
+                        map.panTo(r.point);
+                    }
+                    else {
+                        alert('failed'+this.getStatus());
+                    }
+                },{enableHighAccuracy: true})
+            return;
+        }
+        alert("你的浏览器不支持获取地理位置！");*/
+    };
+    function showPosition(position){
+      x=position.coords.latitude;
+      y=position.coords.longitude;
+      alert(x + ' -')
+    }
+</script>

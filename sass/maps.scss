@@ -1,0 +1,494 @@
+.container {
+	max-width: 500px;
+	margin: auto;
+}
+
+.sideNav {
+	font-size: .14rem;
+	padding-top: 4px;
+	span {
+		vertical-align: middle;
+	}
+}
+
+.icon-filter, .icon-position {
+	display: inline-block;
+	vertical-align: middle;
+	width: .16rem;
+	height: .16rem;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-size: auto 100%;
+	margin: 0 4px;
+}
+
+.icon-filter {
+	background-image: url(../images/icon-filter.png);
+}
+
+.icon-position {
+	background-image: url(../images/icon-position.png);
+}
+
+.sexTabs {
+	display: inline-block;
+	vertical-align: middle;
+	// margin-left: .1rem;
+	font-weight: bold;
+	em {
+		display: inline-block;
+		vertical-align: middle;
+	    padding: 6px .14rem;
+    	border-radius: 4px;
+    	cursor: pointer;
+	}
+	.man {
+		color: blue;
+		&.active {
+			background: #c0c0fc;
+		}
+	}
+	.woman {
+		color: #f0c;
+		&.active {
+			background: #eac9e3;
+		}
+	}
+	.all {
+		color: #999;
+		&.active {
+			background: #dfdfdf;
+		}
+	}
+}
+
+.position {
+	float: right;
+	margin-right: .1rem;
+    height: .28rem;
+    line-height: .26rem;
+    cursor: pointer;
+}
+
+.category {
+	font-size: .14rem;
+	span {
+		display: inline-block;
+		vertical-align: middle;
+		background: #fff;
+		padding: .06rem 0;
+		width: 29%;
+    	margin: .08rem 1.1% 0;
+    	cursor: pointer;
+		text-align: center;
+    	&.active {
+    		background: #85abff;
+    		color: #fff;
+    	}
+	}
+}
+
+.roomList {
+	font-size: .12rem;
+	padding-top: .14rem;
+	li {
+		float: left;
+		width: 45%;
+		margin: 0 0 .16rem 3.3%;
+		border-radius: 4px;
+		overflow: hidden;
+	}
+	.box {
+		overflow: hidden;
+		position: relative;
+	    padding-bottom: 100%;
+	    &.notVbImg {
+	    	background: #ccc;
+	    	img {
+			    height: 80%;
+			    max-width: none;
+			    width: auto;
+			    margin: 10% 0 0 -20%;
+	    	}
+	    }
+		.cate, .name, .city, .watch, .txt, img {
+			position: absolute;
+		}
+		.cate {
+			top: 4px;
+			left: 4px;
+			background: #666;
+			color: #ccc;
+			padding: 2px 4px;
+			border-radius: 2px;
+			opacity: .7;
+		}
+		.name {
+			left: 4px;
+			bottom: 4px;
+			color: #fff;
+			font-size: .14rem;
+			text-shadow: 1px 1px 1px #333;
+		}
+		.city {
+			left: 4px;
+			bottom: 6px;
+			color: #fff;
+		}
+		.watch {
+			right: 4px;
+			bottom: 6px;
+			color: #fff;
+		}
+		.txt {
+			bottom: 4px;
+			right: 4px;
+			color: #fff;
+			text-shadow: 1px 1px 1px #333;
+			max-width: 64%;
+		    overflow: hidden;
+		    white-space: nowrap;
+		    text-overflow: ellipsis;
+		}
+	}
+	.dist {
+		background: #fff;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		padding: 4px 6px;
+		height: 23px;
+		border-top: 1px solid #f1f1f1;
+		color: #999;
+		span {
+			float: right;
+		}
+	}
+}
+
+.maps {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: #fff;
+	img {
+		width: auto;
+		max-width: none;
+	}
+	.mapsBtn {
+		background: #85abff;
+	    color: #fff;
+	    text-align: center;
+	    margin-top: 10px;
+	    line-height: 36px;
+	    height: 36px;
+	    cursor: pointer;
+	}
+}
+
+#allmap {
+	height: 100%;
+	font-size: .14rem;
+}
+
+.nextPage {
+	background: #fff;
+    color: #666;
+    text-align: center;
+    padding: 10px 0;
+    margin: 0 16px 20px;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.maps_marker {
+	position: fixed;
+	left: 50%;
+	top: 25%;
+	width: 20px;
+	margin: -25px 0 0 -10px;
+	&::after, &::before {
+		content: '';
+		display: block;
+		background: url(../images/marker_red_sprite.png) no-repeat;
+		position: absolute;
+	}
+	&::after {
+		width: 20px;
+		height: 25px;
+		transition: all 1s;
+		animation: marker .8s infinite linear;
+	}
+	&::before {
+	    width: 17px;
+	    height: 9px;
+	    background-position: -20px -15px;
+	    top: 16px;
+	    left: 4px;
+		animation: mShadow .8s infinite linear;
+	}
+}
+
+@-webkit-keyframes marker {
+	0% {
+		top: -15px;
+	}
+	30% {
+		top: 0;
+	}
+	100% {
+		top: -15px;
+	}
+}
+
+@-webkit-keyframes mShadow {
+	0% {
+		top: 1px;
+		left: 20px;
+	}
+	30% {
+		top: 16px;
+		left: 4px;
+	}
+	100% {
+		top: 1px;
+		left: 20px;
+	}
+}
+
+.mapsTitle {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 9;
+	background: #284682;
+	padding: 6px 0;
+	.back {
+		font-size: .22rem;
+		font-family: SimSun,Droid Sans Fallback;
+		display: block;
+		float: left;
+		width: 11.8%;
+		text-align: center;
+		height: 30px;
+		line-height: 30px;
+		color: #ccc;
+	}
+	.text {
+		float: left;
+		background: #0d2c65;
+		border: none;
+		height: 30px;
+		width: 68%;
+		color: #ccc;
+		padding: 0 8px;
+	}
+	.search {
+		float: left;
+		width: 7%;
+		margin-left: 2%;
+		height: 30px;
+		background: url(../images/search.png) no-repeat center center;
+		background-size: auto 100%;
+	}
+	.send {
+		float: left;
+		width: 16%;
+		margin-left: 2%;
+		height: 30px;
+		border: none;
+		background: #7979cc;
+		color: #fff;
+	}
+}
+
+.nearby {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 50%;
+	background: #fff;
+	font-size: .16rem;
+	ul {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		overflow-y: scroll;
+		padding-bottom: 50px;
+	}
+	li {
+		height: 50px;
+		border-bottom: 1px solid #f1f1f1;
+		padding: 0 10px;
+		position: relative;
+		span {
+			display: inline-block;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			padding-top: 6px;
+		    width: 100%;
+		}
+		em {
+			display: block;
+			font-size: .12rem;
+			color: #ccc;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+		&:first-child {
+			span {
+				vertical-align: middle;
+				width: 90%;
+				padding: 16px 0 0 0;
+			}
+		}
+		&:active {
+			background: #f1f1f1;
+		}
+		&.active {
+			i {
+				display: inline-block;
+				width: 18px;
+				height: 100%;
+				background: url(../images/icon-location.png) no-repeat;
+				background-size: 100% auto;
+				position: absolute;
+			    top: 14px;
+    			right: 10px;
+			}
+		}
+	}
+}
+
+.results {
+	position: absolute;
+	top: 42px;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	z-index: 11;
+	li {
+		&:first-child {
+			span {
+				padding-top: 6px;
+				vertical-align: initial;
+			}
+		}
+	}
+}
+
+.retable-more {
+	font-size: 14px;
+	padding: 5px 0 10px;
+	text-align: center;
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  background: url(../images/loading.png) no-repeat;
+  background-size: 100% auto;
+  margin: 126px 0 0 -12px;
+  z-index: 9999;
+  -webkit-animation: spinner-spin 1s step-end infinite;
+  animation: spinner-spin 1s step-end infinite;
+}
+@-webkit-keyframes spinner-spin {
+  0% {
+    -webkit-transform:rotate(0deg);
+  }
+  8.33333333% {
+    -webkit-transform:rotate(30deg);
+  }
+  16.66666667% {
+    -webkit-transform:rotate(60deg);
+  }
+  25% {
+    -webkit-transform:rotate(90deg);
+  }
+  33.33333333% {
+    -webkit-transform:rotate(120deg);
+  }
+  41.66666667% {
+    -webkit-transform:rotate(150deg);
+  }
+  50% {
+    -webkit-transform:rotate(180deg);
+  }
+  58.33333333% {
+    -webkit-transform:rotate(210deg);
+  }
+  66.66666667% {
+    -webkit-transform:rotate(240deg);
+  }
+  75% {
+    -webkit-transform:rotate(270deg);
+  }
+  83.33333333% {
+    -webkit-transform:rotate(300deg);
+  }
+  91.66666667% {
+    -webkit-transform:rotate(330deg);
+  }
+  100% {
+    -webkit-transform:rotate(360deg);
+  }
+}
+@keyframes spinner-spin {
+  0% {
+    transform:rotate(0deg);
+  }
+  8.33333333% {
+    transform:rotate(30deg);
+  }
+  16.66666667% {
+    transform:rotate(60deg);
+  }
+  25% {
+    transform:rotate(90deg);
+  }
+  33.33333333% {
+    transform:rotate(120deg);
+  }
+  41.66666667% {
+    transform:rotate(150deg);
+  }
+  50% {
+    transform:rotate(180deg);
+  }
+  58.33333333% {
+    transform:rotate(210deg);
+  }
+  66.66666667% {
+    transform:rotate(240deg);
+  }
+  75% {
+    transform:rotate(270deg);
+  }
+  83.33333333% {
+    transform:rotate(300deg);
+  }
+  91.66666667% {
+    transform:rotate(330deg);
+  }
+  100% {
+    transform:rotate(360deg);
+  }
+}
+.loading_remove {
+  display: none !important;
+  visibility: hidden;
+}

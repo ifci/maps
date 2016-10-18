@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge|chrome=1" />
+    <meta name="author" content="fcdcyy@sina.cn">
+    <meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="format-detection" content="telephone=no">
+	<title>地图定位demo</title>
+	<link rel="stylesheet" href="css/base.css">
+	<link rel="stylesheet" href="css/maps.css">
+</head>
+<body id="app" v-cloak>
+	<div class="container" v-show="!mapShow">
+		<div class="sideNav clearfix">
+			<i class="icon-filter"></i>
+			<span>筛选</span>
+			<div class="sexTabs" v-if="gender">
+				<em class="all" :class="{'active': genderTabs === ''}" @click="chooseGender('')">全部</em>
+				<em class="man" :class="{'active': genderTabs === '男'}" @click="chooseGender('男')">男 {{ gender['男'] }}</em>
+				<em class="woman" :class="{'active': genderTabs === '女'}" @click="chooseGender('女')">女 {{ gender['女'] }}</em>
+			</div>
+			<div class="position" @click="maps"><i class="icon-position"></i> <span>定位</span></div>
+		</div>
+		<div class="category" v-show="list && list.length > 0 && tags.length > 0">
+			<span v-for="item in tags" :class="{'active': labelTabs === item.labelName}" @click="tabs('label', item.labelName)">{{ item.labelName }} {{ item.RoomNum }}</span>
+			<span>更多 &gt;</span>
+		</div>
+		<div class="roomList" v-show="list && list.length > 0">
+			<ul class="clearfix">
+				<li v-for="item in list" v-if="!labelTabs || item['动态标签'] === labelTabs">
+					<div class="box" :class="{'notVbImg': item.vbImgUrl.indexOf('1467699074732') !== -1}"><img :src="item.vbImgUrl + '@250w'" alt=""><span class="cate">{{ item['OwnerTypeName'] }}</span><span class="name">{{ item['OwnerName'] }}</span><!--<span class="watch">{{ item['MemberNum'] && item['MemberNum'] + '人' || '' }}</span>--><span class="txt">{{ item.RoomTopic }}</span></div>
+					<div class="dist">{{ item.Distance < 1 ? Math.round(item.Distance * 1000) + 'm' : Math.round(item.Distance) + 'km' }} <span>{{ item['City'] }}</span></div>
+				</li>
+			</ul>
+      		<div class="retable-more" v-show="totalPage && page + 1 < totalPage">上拉显示更多</div>
+			<!-- <div class="nextPage" v-if="page + 1 < totalPage" @click="nextPage">
+				下一页
+			</div> -->
+		</div>
+	</div>
+	<div class="loading" v-show="!list"></div>
+	<!-- 地图顶部导航 -->
+	<div class="mapsTitle clearfix" v-show="mapShow"><span class="back" @click="closeMaps">&lt;</span><input type="text" v-model="keyWords" @focus="searchShow" class="text"><!--<i class="search"></i>--><button class="send" @click="getPoint">{{ searchStatus ? '搜索' : '确定' }}</button></div>
+	<!-- 搜索容器 -->
+	<div class="results nearby" v-show="searchStatus">
+		<ul>
+			<li @click="searchNear(item.location)" :class="{'active': item.location.lng + ',' + item.location.lat === sPoint}" v-for="item in searchResults"><span>{{ item.name }}</span> <em>{{ item.address }}</em> <i></i></li>
+		</ul>
+		<div v-show="!searchResults" class="loading"></div>
+	</div>
+	<!-- 地图容器 -->
+	<div id="allmap" v-show="mapShow"></div>
+	<!-- 标注 -->
+	<div class="maps_marker" v-show="mapShow"></div>
+	<!-- 附近列表 -->
+	<div class="nearby" v-show="mapShow">
+		<ul>
+			<li @click="panto('')" :class="{'active': !pPoint}"><span>{{ nearby.address }}</span> <i></i></li>
+			<li @click="panto(item.point)" :class="{'active': item.point.lng + ',' + item.point.lat === pPoint}" v-for="item in nearby.list"><span>{{ item.title }}</span> <em>{{ item.address }}</em> <i></i></li>
+		</ul>
+	</div>
+
+	<style type="text/css">
+		#allmap {width: 100%;height: 50%;overflow: hidden;margin:0;}
+		#allmap {position: absolute !important;top: 0;left: 0;background: #fff;}
+		#golist {display: none;}
+		@media (max-device-width: 780px){#golist{display: block !important;}}
+	</style>
+	<script src="js/vue.min.js"></script>
+	<script src="js/common.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?type=quick&ak=EGc4m9P9FUNEWC27xKgf9kO1TNboRCay&v=1.0"></script>
+	<script src="js/maps.js"></script>
+
+<script type="text/javascript">
+	// 百度地图API功能
+	/*window.loadJScript = function() {
+		var map = new BMap.Map("allmap");
+		map.centerAndZoom(new BMap.Point(121.54069, 31.223374), 18);
+		map.addControl(new BMap.ZoomControl());
+		function addMarker (point) {
+			var marker1 = new BMap.Marker(new BMap.Point(point[0], point[1]));
+			map.addOverlay(marker1);
+		}
+		// addMarker([121.54069, 31.223374]);
+		map.addEventListener("moveend", function showInfo(){
+			var cp = map.getCenter();
+			getPoint(cp.lat, cp.lng);
+			// addMarker([cp.lng, cp.lat]);
+			// alert(cp.lng + "," + cp.lat);
+		});
+	}
+	loadJScript ();*/
+</script>
+	<!-- <script>
+		function loadJScript() {
+			var script = document.createElement("script");
+			script.type = "text/javascript";
+			// script.src = "http://api.map.baidu.com/api?v=2.0&ak=EGc4m9P9FUNEWC27xKgf9kO1TNboRCay&callback=init";
+			script.src = "http://api.map.baidu.com/api?type=quick&ak=EGc4m9P9FUNEWC27xKgf9kO1TNboRCay&v=1.0";
+			document.body.appendChild(script);
+		}
+		function init() {
+			var map = new BMap.Map("allmap");            // 创建Map实例
+			map.centerAndZoom(new BMap.Point(121.540483, 31.223405),15);
+			map.enableScrollWheelZoom();                 //启用滚轮放大缩小
+
+			var opts = {
+				width : 200,     // 信息窗口宽度
+				height: 20,     // 信息窗口高度
+				title : "" , // 信息窗口标题
+				enableMessage:true,//设置允许信息窗发送短息
+				message:""
+			};
+			function addMarker (lng, lat) {
+				var point = new BMap.Point(lng, lat);
+				var marker = new BMap.Marker(point);  // 创建标注
+				map.addOverlay(marker);              // 将标注添加到地图中
+				var infoWindow = new BMap.InfoWindow('坐标：' + lng + ', ' + lat + '<div class="mapsBtn" onclick="getPoint(' + lng + ', ' + lat + ')">确定</div>', opts);  // 创建信息窗口对象
+				map.openInfoWindow(infoWindow,point);
+			}
+
+			addMarker(121.540483, 31.223405);
+
+
+
+			// marker.enableDragging();
+			map.addEventListener("click",function(e){
+				map.clearOverlays();
+				addMarker(e.point.lng, e.point.lat);
+				console.log(e.point.lng + "," + e.point.lat);
+			});
+		}
+		// loadJScript();
+		window.loadJScript = loadJScript;  //异步加载地图
+	</script> -->
+</body>
+</html>

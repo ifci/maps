@@ -1,0 +1,70 @@
+html, body, div, ul, ol, li, dl, dt, dd, p, h2, h3, h4, span, input, textarea, select, option, table, tr, td, dd, dt, blockquote, ins {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+html, body {
+  font-size: 100px;
+}
+
+body {
+  background: #f0eff4;
+  font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","STHeitiSC-Light",Arial,sans-serif;
+  min-width: 320px;
+  color: #666;
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+img {
+  border: none;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+ul, li {
+  list-style-type: none;
+}
+
+i, em {
+  font-style: normal;
+}
+
+input,button {
+  -webkit-appearance: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  outline: none;
+  @extend %ffyh;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+[v-cloak] {
+  display: none !important;
+}
